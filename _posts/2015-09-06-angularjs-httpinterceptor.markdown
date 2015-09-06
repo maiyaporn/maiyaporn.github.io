@@ -44,6 +44,7 @@ angular.module('app')
 
 For my case, we just need a few more lines. Add config block to interceptor module and include this module as a dependencies for the main module.
 
+~~~~~~
 angular.module('interceptor-module', [])
 	.service('myHttpInterceptor', function( ) {
 		...
@@ -51,7 +52,7 @@ angular.module('interceptor-module', [])
 .config( function($httpProvider, ...) {
 		$httpProvider.interceptors.push('myHttpInterceptor');
 	});
-
+~~~~~~
 
 angular.module('app', ['interceptor-module'])
 
@@ -108,5 +109,3 @@ It is straightforward in the code. You need to intercept the request before it g
 Then, we intercept responseError which takes response as an argument. Then, check for a status and redirect to our error page. For all other cases, we are going to show a modal with error message. Sometimes, we don’t want these default (global) error handler. You want to handle this request specifically. Then, we need to tell our custom interceptor to ignore this. What I did is to add config to a request I want to handle other ways and then check for that flag in the interceptor. 
 
 There are a few tips you may want to know. If you need to use other services and inject it to interceptor service, you might get an errors like circulate dependencies, and blah blah. One way to do is to inject $injector and use $injector.get(‘...’) to get what you want.
-
-
